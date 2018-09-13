@@ -1,13 +1,38 @@
-version: '3'
+version: '3.4'
+
+volumes:
+  postgres_data_local: {}
 
 services:
   web:
     build:
       context: .
       dockerfile: provision/application/django/Dockerfile
-    container_name: test_django
-    ports:
-      - "8000:8000"
+    container_name: boilerplate_web
+    depends_on:
+      - db
+    env_file:
+      - .envs/.web.env
+    networks:
+      - boilerplate_network
     volumes:
       - .:/app
-    command: python manage.py runserver
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+
+  db:
+    image: postgres:latest
+    container_name: boilerplate_db
+    env_file:
+      - .envs/.database.env
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+    ports:
+      - "55432:5432"
+    networks:
+      - boilerplate_network
+
+networks:
+  boilerplate_network:
+    driver: bridge
