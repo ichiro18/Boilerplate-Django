@@ -12,7 +12,9 @@ services:
     depends_on:
       - db
     env_file:
+      - .envs/.common.env
       - .envs/.web.env
+      - .envs/.database.env
     networks:
       - boilerplate_network
     volumes:
