@@ -84,10 +84,11 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 THIRD_PARTY_APPS = [
-
+    'rest_framework',
+    'rest_framework_swagger'
 ]
 LOCAL_APPS = [
-    'web'
+
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
