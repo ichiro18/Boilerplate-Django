@@ -1,0 +1,40 @@
+version: '3.7'
+
+volumes:
+  postgres_data_local: {}
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: provision/application/django/production/Dockerfile
+    container_name: boilerplate_prod__web
+    depends_on:
+      - db
+    env_file:
+      - .envs/production/.common.env
+      - .envs/production/.web.env
+      - .envs/production/.database.env
+    networks:
+      - boilerplate_network
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: gunicorn --config=gunicorn_config.py config.wsgi:application
+
+  db:
+    image: postgres:latest
+    container_name: boilerplate_prod__db
+    env_file:
+      - .envs/production/.database.env
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+    ports:
+      - "55432:5432"
+    networks:
+      - boilerplate_network
+
+networks:
+  boilerplate_network:
+    driver: bridge

@@ -7,6 +7,6 @@ ENV PYTHONUNBUFFERED 1
 # Install requirements
 COPY ./provision/requirements /requirements
 RUN pip install --upgrade pip
-RUN pip install -r /requirements/base.txt
+RUN pip install -r /requirements/local.txt
 
 WORKDIR /app

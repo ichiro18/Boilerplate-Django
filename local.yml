@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 
 volumes:
   postgres_data_local: {}
@@ -7,14 +7,14 @@ services:
   web:
     build:
       context: .
-      dockerfile: provision/application/django/Dockerfile
-    container_name: boilerplate_web
+      dockerfile: provision/application/django/local/Dockerfile
+    container_name: boilerplate_local__web
     depends_on:
       - db
     env_file:
-      - .envs/.common.env
-      - .envs/.web.env
-      - .envs/.database.env
+      - .envs/local/.common.env
+      - .envs/local/.web.env
+      - .envs/local/.database.env
     networks:
       - boilerplate_network
     volumes:
@@ -25,9 +25,9 @@ services:
 
   db:
     image: postgres:latest
-    container_name: boilerplate_db
+    container_name: boilerplate_local__db
     env_file:
-      - .envs/.database.env
+      - .envs/local/.database.env
     volumes:
       - postgres_data_local:/var/lib/postgresql/data
     ports:
