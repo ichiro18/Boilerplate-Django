@@ -45,9 +45,15 @@ LOCAL_HOSTS = [
     "0.0.0.0",
     "127.0.0.1",
 ]
-CUSTOM_HOST = env.bool('DOMAIN_NAME', 'localhost')
+SITE_HOST = env.str('DOMAIN_NAME')
+SITE_URL_HTTP = 'http://{}'.format(SITE_HOST)
+SITE_URL_HTTPS = 'https://{}'.format(SITE_HOST)
+if env.bool('USE_SSL', default=False):
+    DEFAULT_SITE_URL = SITE_URL_HTTPS
+else:
+    DEFAULT_SITE_URL = SITE_URL_HTTP
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = LOCAL_HOSTS.append(CUSTOM_HOST)
+ALLOWED_HOSTS = LOCAL_HOSTS.append(DEFAULT_SITE_URL)
 
 
 # DATABASES
